@@ -34,7 +34,7 @@ export default function NFTPage(props) {
             price: meta.price,
             tokenId: tokenId,
             seller: listedToken.seller,
-            owner: listedToken.owner,
+         //   owner: listedToken.owner,
             image: meta.image,
             name: meta.name,
             description: meta.description,
@@ -56,13 +56,8 @@ export default function NFTPage(props) {
         //const [string, setString] = useState('');
 
         try {
-            const response = await axios.post('http://localhost:3001/write', {
-                string: mac,
-                filePath: "C:/Users/d.betaieb/Desktop/addressmac.txt",
-                append: true 
-            });
 
-            /*
+            
             const ethers = require("ethers");
             //After adding your Hardhat network to your metamask, this code will get providers and signers
             const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -75,9 +70,15 @@ export default function NFTPage(props) {
             //run the executeSale function
             let transaction = await contract.executeSale(tokenId, {value:salePrice});
             await transaction.wait();
+            const response = await axios.post('http://localhost:3001/write', {
+                string: mac,
+                filePath: "C:/Users/d.betaieb/Desktop/addressmac.txt",
+                append: true 
+            });
+
     
             alert('You successfully rent the NFT!');
-            updateMessage("");*/
+            updateMessage("");
         }
         catch (e) {
             alert("Upload Error" + e)
@@ -106,12 +107,13 @@ export default function NFTPage(props) {
                     <div>
                         Price: <span className="">{data.price + " ETH"}</span>
                     </div>
+
                     <div>
-                        Owner: <span className="text-sm">{data.owner}</span>
+                        Seller: <span className="text-sm">{data.seller}</span>
                     </div>
 
                     <div>
-                        {currAddress != data.owner && currAddress ?
+                        {currAddress != data.owner && currAddress != data.seller ?
                             <div>
                                 <button className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm" onClick={() => buyNFT(tokenId)}>Rent this NFT</button>
                                 <input type="text"  onChange={(e) => handleInputChange(e.target.value)} placeholder="your address Mac" style={{ color: "black" , width: "200px", height: "36px"  }}  />
