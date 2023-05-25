@@ -1,9 +1,12 @@
 import Navbar from "./Navbar";
 import NFTTile from "./NFTTile";
-import MarketplaceJSON from "../Marketplace.json";
+import Marketplace1 from '../Marketplace1.json';
+import RentableNft from '../Rentablenft1.json';
+
 import axios from "axios";
 import { useState } from "react";
 import { GetIpfsUrlFromPinata } from "../utils";
+
 
 export default function Marketplace() {
 const sampleData = [
@@ -44,13 +47,15 @@ async function getAllNFTs() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     //Pull the deployed contract instance
-    let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer)
+    let contract = new ethers.Contract(Marketplace1.address, Marketplace1.abi, signer)
+    let rentablenftcontract = new ethers.Contract(RentableNft.address, RentableNft.abi, signer)
+
     //create an NFT Token
-    let transaction = await contract.getAllNFTs()
+    let transaction = await contract.getAllListings()
 
     //Fetch all the details of every NFT from the contract and display
     const items = await Promise.all(transaction.map(async i => {
-        var tokenURI = await contract.tokenURI(i.tokenId);
+        var tokenURI = await rentablenftcontract.tokenURI(i.tokenId);
         console.log("getting this tokenUri", tokenURI);
         tokenURI = GetIpfsUrlFromPinata(tokenURI);
         let meta = await axios.get(tokenURI);
@@ -65,6 +70,7 @@ async function getAllNFTs() {
             image: meta.image,
             name: meta.name,
             description: meta.description,
+            duration: meta.duration,
         }
         return item;
     }))

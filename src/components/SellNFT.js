@@ -1,11 +1,13 @@
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { uploadFileToIPFS, uploadJSONToIPFS } from "../pinata";
-import Marketplace from '../Marketplace.json';
+import Marketplace1 from '../Marketplace1.json';
+import RentableNft1 from '../Rentablenft1.json';
+
 import { useLocation } from "react-router";
 
 export default function SellNFT () {
-    const [formParams, updateFormParams] = useState({ name: '', description: '', price: ''});
+    const [formParams, updateFormParams] = useState({ name: '', description: '', price: '',duration: ''});
     const [fileURL, setFileURL] = useState(null);
     const ethers = require("ethers");
     const [message, updateMessage] = useState('');
@@ -48,16 +50,21 @@ export default function SellNFT () {
 
     //This function uploads the metadata to IPFS
     async function uploadMetadataToIPFS() {
-        const {name, description, price} = formParams;
+        const {name, description, price,duration} = formParams;
         //Make sure that none of the fields are empty
-        if( !name || !description || !price || !fileURL)
+        if( !name || !description || !price || !duration || !fileURL)
         {
             updateMessage("Please fill all the fields!")
             return -1;
         }
+        const durationint= parseInt(duration,10);
+        if (durationint<0)
+        {
+            updateMessage("duration must be positive")
+        }
 
         const nftJSON = {
-            name, description, price, image: fileURL
+            name, description, price,duration, image: fileURL
         }
 
         try {
@@ -73,7 +80,7 @@ export default function SellNFT () {
         }
     }
 
-    async function listNFT(e) {
+    async function listnft(e) {
         e.preventDefault();
 
         //Upload data to IPFS
@@ -88,21 +95,51 @@ export default function SellNFT () {
             updateMessage("Uploading NFT(takes 5 mins).. please dont click anything!")
 
             //Pull the deployed contract instance
-            let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
+            let marketplacecontract = new ethers.Contract(Marketplace1.address, Marketplace1.abi, signer)
+            
+            let rentablenftcontract = new ethers.Contract(RentableNft1.address, RentableNft1.abi, signer)
 
             //massage the params to be sent to the create NFT request
             const price = ethers.utils.parseUnits(formParams.price, 'ether')
-            let listingPrice = await contract.getListPrice()
+            const duration = formParams.duration
+            const durationint= parseInt(duration,10);
+
+            let listingPrice = await marketplacecontract.getListingFee()
             listingPrice = listingPrice.toString()
+            let transactionmint = await rentablenftcontract.mint(metadataURL)
+            await transactionmint.wait()
+            alert("Mint successfully");
+
+            let i = 1;
+            let tokenid;
+            let tokenurl;
+
+            
+            while (true) {
+              try {
+                tokenurl = await rentablenftcontract.tokenURI(i);
+                i++;
+              } catch (e) {
+                console.log("Error:", e);
+                tokenid = i - 1;
+                break;
+              }
+            }
+            console.log(tokenid);
+                
+
+        
+
+
 
             //actually create the NFT
-            let transaction = await contract.createToken(metadataURL, price, { value: listingPrice })
-            await transaction.wait()
+           let transaction = await marketplacecontract.listNFT(RentableNft1.address, tokenid, price,{ value: listingPrice })
+           await transaction.wait()
 
             alert("Successfully listed your NFT!");
             enableButton();
             updateMessage("");
-            updateFormParams({ name: '', description: '', price: ''});
+            updateFormParams({ name: '', description: '', price: '',duration:''});
             window.location.replace("/")
         }
         catch(e) {
@@ -129,13 +166,18 @@ export default function SellNFT () {
                     <label className="block text-purple-500 text-sm font-bold mb-2" htmlFor="price">Price (in ETH)</label>
                     <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" placeholder="Min 0.01 ETH" step="0.01" value={formParams.price} onChange={e => updateFormParams({...formParams, price: e.target.value})}></input>
                 </div>
+                <div className="mb-4">
+                    <label className="block text-purple-500 text-sm font-bold mb-2" htmlFor="duration">NFT Duration</label>
+                    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="duration" type="text" placeholder="Put the duration in minutes" onChange={e => updateFormParams({...formParams, duration: e.target.value})} value={formParams.duration}></input>
+                </div>
+                
                 <div>
                     <label className="block text-purple-500 text-sm font-bold mb-2" htmlFor="image">Upload Image (&lt;500 KB)</label>
                     <input type={"file"} onChange={OnChangeFile}></input>
                 </div>
                 <br></br>
                 <div className="text-red-500 text-center">{message}</div>
-                <button onClick={listNFT} className="font-bold mt-10 w-full bg-purple-500 text-white rounded p-2 shadow-lg" id="list-button">
+                <button onClick={listnft} className="font-bold mt-10 w-full bg-purple-500 text-white rounded p-2 shadow-lg" id="list-button">
                     List NFT
                 </button>
             </form>

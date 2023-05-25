@@ -1,6 +1,8 @@
 import Navbar from "./Navbar";
 import { useLocation, useParams } from 'react-router-dom';
-import MarketplaceJSON from "../Marketplace.json";
+import Marketplace1 from "../Marketplace1.json";
+import RentableNft from "../Rentablenft1.json";
+
 import axios from "axios";
 import { useState } from "react";
 import NFTTile from "./NFTTile";
@@ -20,10 +22,12 @@ export default function Profile () {
         const addr = await signer.getAddress();
 
         //Pull the deployed contract instance
-        let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer)
+        let marketplcacontract = new ethers.Contract(Marketplace1.address, Marketplace1.abi, signer)
+        let rentablenftcontract = new ethers.Contract(RentableNft.address, RentableNft.abi, signer)
+
 
         //create an NFT Token
-        let transaction = await contract.getMyNFTs()
+        let transaction = await marketplcacontract.getMyNFTs(RentableNft.address)
 
         /*
         * Below function takes the metadata from tokenURI and the data returned by getMyNFTs() contract function
@@ -31,24 +35,29 @@ export default function Profile () {
         */
         
         const items = await Promise.all(transaction.map(async i => {
-            const tokenURI = await contract.tokenURI(i.tokenId);
+            const tokenURI = await rentablenftcontract.tokenURI(i.tokenId);
             let meta = await axios.get(tokenURI);
             meta = meta.data;
 
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+            if (addr==i.owner)  {
             let item = {
                 price,
                 tokenId: i.tokenId.toNumber(),
-                seller: i.seller,
                 owner: i.owner,
                 image: meta.image,
                 name: meta.name,
                 description: meta.description,
-            }
-            sumPrice += Number(price);
+                duration: meta.duration,
+            } 
             return item;
-        }))
 
+                                }
+                                   
+            sumPrice += Number(price);
+            
+        }))
+        
         updateData(items);
         updateFetched(true);
         updateAddress(addr);
