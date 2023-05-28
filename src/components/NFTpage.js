@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import Marketplace1 from "../Marketplace1.json";
 import Rentablenft1 from "../Rentablenft1.json";
 
+
 import axios from "axios";
 import { useEffect,useState } from "react";
 import { GetIpfsUrlFromPinata } from "../utils";
@@ -17,6 +18,7 @@ export default function NFTPage(props) {
     const [currAddress, updateCurrAddress] = useState("0x");
     const [remainingTime, setRemainingTime] = useState(0);
     const [countdownInterval, setCountdownInterval] = useState(null);
+    
 
 
 
@@ -51,6 +53,7 @@ export default function NFTPage(props) {
             description: meta.description,
             duration : meta.duration,
             expires: listedToken.expires, // Add this line to set the expires value
+            macaddres: listedToken.mac,
 
         }
         console.log(item);
@@ -65,6 +68,23 @@ export default function NFTPage(props) {
         setMac(value)
 
     };
+
+
+    async function unlistnft(token){
+      const ethers = require("ethers");
+
+        //After adding your Hardhat network to your metamask, this code will get providers and signers
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const addr = await signer.getAddress();
+        //Pull the deployed contract instance
+        let marketplacecontract = new ethers.Contract(Marketplace1.address, Marketplace1.abi, signer)
+        let rentablecontract = new ethers.Contract(Rentablenft1.address, Rentablenft1.abi, signer)
+        let transaction = await marketplacecontract.unlistNFT(Rentablenft1.address,tokenId);
+        await transaction.wait();
+
+      alert('Nft unlisted successfully');
+}
 
 
       
@@ -106,6 +126,24 @@ export default function NFTPage(props) {
         }
     }
 
+    function timestampToDate(timestamp) {
+      // Create a new Date object with the timestamp in milliseconds
+      const date = new Date(timestamp * 1000);
+    
+      // Get the individual date components
+      const year = date.getFullYear();
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const day = ("0" + date.getDate()).slice(-2);
+      const hours = ("0" + date.getHours()).slice(-2);
+      const minutes = ("0" + date.getMinutes()).slice(-2);
+      const seconds = ("0" + date.getSeconds()).slice(-2);
+    
+      // Create the formatted date string
+      const dateString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    
+      return dateString;
+    }
+
 
       
 
@@ -144,9 +182,19 @@ export default function NFTPage(props) {
                     Duration: {data.duration + " MIN"}
                   </div>
 
+
                   
                   {data.user !== "0x0000000000000000000000000000000000000000" ? (
+                    <div>
                     <div className="text-emerald-700">NFT already rented</div>
+                    <div>
+                    Expiration: {timestampToDate(data.expires) }
+                  </div>
+                  <div>
+                    Mac: {data.macaddres }
+                  </div>
+                  </div>
+                    
                   ) : (
                     <div>
                       {currAddress !== data.owner ? (
@@ -157,6 +205,8 @@ export default function NFTPage(props) {
                           >
                             Rent this NFT
                           </button>
+
+                          
                           <input
                             type="text"
                             onChange={(e) => handleInputChange(e.target.value)}
@@ -165,7 +215,15 @@ export default function NFTPage(props) {
                           />
                         </div>
                       ) : (
-                        <div className="text-emerald-700">You are the renter of this NFT</div>
+                        <div>
+                        <div className="text-emerald-700">You are the owner of this NFT</div>
+                        <button
+                        className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+                        onClick={() => unlistnft(tokenId)}
+                      >
+                        Unlist this nft
+                      </button>
+                      </div>
                       )}
                       <div className="text-green text-center mt-3">{message}</div>
                     </div>

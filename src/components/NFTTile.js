@@ -10,7 +10,7 @@ function NFTTile (data) {
         pathname:"/nftPage/"+data.data.tokenId
     }
 
-    const IPFSUrl = GetIpfsUrlFromPinata(data.data.image);
+    const IPFSUrl = GetIpfsUrlFromPinata(data.data.image);  //  get the url of image from pinata ipfs 
 
     return (
         <Link to={newTo}>
@@ -22,6 +22,8 @@ function NFTTile (data) {
                 <p className="display-inline">
                     {data.data.duration + " Minutes"}
                 </p>
+                
+                
             </div>
         </div>
         </Link>
