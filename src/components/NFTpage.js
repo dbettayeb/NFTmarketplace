@@ -64,7 +64,7 @@ export default function NFTPage(props) {
     }
 
     const handleInputChange = ( value) => {
-        value += "\n";
+        
         setMac(value)
 
     };
