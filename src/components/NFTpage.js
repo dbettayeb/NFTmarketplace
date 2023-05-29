@@ -120,6 +120,8 @@ export default function NFTPage(props) {
     
             alert('You successfully rent the NFT!');
             updateMessage("");
+            window.location.reload()
+
         }
         catch (e) {
             alert("Upload Error" + e)
