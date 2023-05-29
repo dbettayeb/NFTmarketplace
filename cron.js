@@ -5,53 +5,52 @@ const fs = require('fs');
 const Web3 = require('web3');
 const web3 = new Web3('https://eth-sepolia.g.alchemy.com/v2/CxsnQRk6vVA0rsw6ddwpDS7R-bvLpGc7');
 const abi = Marketplace1.abi;
-const contractAddress = Marketplace1.address // Replace with your actual contract address
+const contractAddress = Marketplace1.address; // Replace with your actual contract address
 
 // Contract instance
 const contract = new web3.eth.Contract(abi, contractAddress);
 
+// Variable to store the previous map of addresses
+let previousAddresses = [];
+
 async function retrieveContractData() {
-    // Retrieve data from the contract
-    const allListings = await contract.methods.getAllListings().call();
-    // Write data to a file
-    const jsonData = JSON.stringify(allListings, null, 2);
- //   fs.writeFileSync('contractData.json', jsonData);
-//    console.log(allListings[1][0]);
+  // Retrieve data from the contract
+  const allListings = await contract.methods.getAllListings().call();
 
-// console.log(allListings);
+  const currentAdresses = allListings.map(listing => listing[7]);
 
-const addressmacs = allListings.map(listing => listing[6]);
+  if (arraysAreEqual(currentAdresses, previousAddresses)) {
+    // If there is no change, delay the cron job
+    console.log('No change in addresses. Cron job is delayed.');
+    return;
+  }
 
-//console.log(macaddresses);
-fs.writeFile('addresses.txt', addressmacs.join('\n'), err => {
+  previousAddresses = currentAdresses; // Update the previous addresses
+
+  const addressmacs = allListings.map(listing => listing[6]);
+
+  fs.writeFile('addresses.txt', addressmacs.join('\n'), err => {
     if (err) {
       console.error('Error writing to file:', err);
     } else {
-      console.log('Statuses have been written to addresses.txt');
+      console.log('addresses have been written to addresses.txt');
     }
   });
+}
 
-
+function arraysAreEqual(array1, array2) {
+  if (array1.length !== array2.length) {
+    return false;
   }
-  
-  // Execute the cron job
-  
-  
+  for (let i = 0; i < array1.length; i++) {
+    if (array1[i] !== array2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
 
-
-
+// Schedule the cron job
 cron.schedule('* * * * * *', () => {
-    retrieveContractData();  
-
+  retrieveContractData();
 });
-
-
-
-
-
-
-
-
-
-
-
