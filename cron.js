@@ -1,12 +1,13 @@
 var cron = require('node-cron');
-const Marketplace1 = require('C:/Users/d.betaieb/Desktop/cronjob/Marketplace1.json');
+const Marketplace1 = require('/home/dbetaieb/NFTmarketplace/src/Marketplace1.json');
 
 const fs = require('fs');
 const Web3 = require('web3');
 const web3 = new Web3('https://eth-sepolia.g.alchemy.com/v2/CxsnQRk6vVA0rsw6ddwpDS7R-bvLpGc7');
 const abi = Marketplace1.abi;
 const contractAddress = Marketplace1.address; // Replace with your actual contract address
-
+const {exec}= require("child_process");
+const path ='/etc/hostapd';
 // Contract instance
 const contract = new web3.eth.Contract(abi, contractAddress);
 
@@ -29,13 +30,16 @@ async function retrieveContractData() {
 
   const addressmacs = allListings.map(listing => listing[6]);
 
-  fs.writeFile('addresses.txt', addressmacs.join('\n'), err => {
+  fs.writeFile('/etc/hostapd/hostapd.whitelist', addressmacs.join('\n'), err => {
     if (err) {
       console.error('Error writing to file:', err);
     } else {
       console.log('addresses have been written to addresses.txt');
     }
   });
+  exec('sudo systemctl restart hostapd.service');
+
+
 }
 
 function arraysAreEqual(array1, array2) {
