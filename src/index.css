@@ -11,8 +11,12 @@ body {
   /*font-family: 'M PLUS 1p', sans-serif;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./bg.png');
-  background-size: 200% 180%;
+  background: url('back.png') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  
   animation-duration: 3s;
   animation-timing-function: linear;
   animation-delay: 0s;

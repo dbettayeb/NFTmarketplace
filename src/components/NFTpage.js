@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import Marketplace1 from "../Marketplace1.json";
 import Rentablenft1 from "../Rentablenft1.json";
 
+import './test.css'
 
 import axios from "axios";
 import { useEffect,useState } from "react";
@@ -160,11 +161,12 @@ export default function NFTPage(props) {
         data.image = GetIpfsUrlFromPinata(data.image);
 
         return (
+          <div className="body">
             <div style={{ "min-height": "100vh" }}>
-              <Navbar></Navbar>
-              <div className="flex ml-20 mt-20">
-                <img src={data.image} alt="" className="w-2/5" />
-                <div className="text-xl ml-20 space-y-8 text-white shadow-2xl rounded-lg border-2 p-5">
+              <div className="flex justify-center items-center mt-100">
+                <img src={data.image} alt=""  className="w-2/7  border rounded-lg shadow-2xl "width="400" 
+     height="500" />
+                <div className="text-xl ml-1 space-y-8 text-white shadow-2xl rounded-lg border-2 p-5">
                   <div>
                     Name: {data.name}
                   </div>
@@ -188,7 +190,7 @@ export default function NFTPage(props) {
                   
                   {data.user !== "0x0000000000000000000000000000000000000000" ? (
                     <div>
-                    <div className="text-emerald-700">NFT already rented</div>
+                    <div className="text-red-900">NFT already rented</div>
                     <div>
                     Expiration: {timestampToDate(data.expires) }
                   </div>
@@ -202,14 +204,15 @@ export default function NFTPage(props) {
                       {currAddress !== data.owner ? (
                         <div>
                           <button
-                            className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+                            className="enableEthereumButton bg-orange-500  text-white font-bold py-2 px-4 rounded text-sm"
                             onClick={() => rentnft(tokenId)}
                           >
                             Rent this NFT
                           </button>
 
                           
-                          <input
+                          <input className="enableEthereumButton   text-white font-bold py-2 px-4 rounded text-sm inline-block -mt-1 ml-2"
+
                             type="text"
                             onChange={(e) => handleInputChange(e.target.value)}
                             placeholder="your address Mac"
@@ -220,7 +223,7 @@ export default function NFTPage(props) {
                         <div>
                         <div className="text-emerald-700">You are the owner of this NFT</div>
                         <button
-                        className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
+                        className="enableEthereumButton bg-orange-500  text-white font-bold py-2 px-4 rounded text-sm"
                         onClick={() => unlistnft(tokenId)}
                       >
                         Unlist this nft
@@ -232,6 +235,7 @@ export default function NFTPage(props) {
                   )}
                 </div>
               </div>
+            </div>
             </div>
           );
           

@@ -17,12 +17,18 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
+      {/* <Routes>
+      <Route path="/" element={<SharedLayout />}>
         <Route path="/" element={<Marketplace />}/>
         <Route path="/sellNFT" element={<SellNFT />}/> 
         <Route path="/nftPage/:tokenId" element={<NFTPage />}/>        
-        <Route path="/profile" element={<Profile />}/> 
-      </Routes>
+        <Route path="/profile" element={<Profile />}/>
+      </Route> 
+      </Routes> */
+      
+      <App/>
+      
+      }
     </BrowserRouter>
   </React.StrictMode>
 );

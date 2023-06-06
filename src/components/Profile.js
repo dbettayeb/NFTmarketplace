@@ -2,6 +2,8 @@ import Navbar from "./Navbar";
 import { useLocation, useParams } from 'react-router-dom';
 import Marketplace1 from "../Marketplace1.json";
 import RentableNft from "../Rentablenft1.json";
+import './test.css'
+
 
 import axios from "axios";
 import { useState } from "react";
@@ -12,6 +14,8 @@ export default function Profile () {
     const [dataFetched, updateFetched] = useState(false);
     const [address, updateAddress] = useState("0x");
     const [totalPrice, updateTotalPrice] = useState("0");
+    const [balance, setBalance] = useState(0);
+
 
     async function getNFTData(tokenId) {
         const ethers = require("ethers");
@@ -20,6 +24,9 @@ export default function Profile () {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const addr = await signer.getAddress();
+        const balancee = await provider.getBalance(addr)
+        const balance = ethers.utils.formatEther(balancee)
+        setBalance(balance);
 
         //Pull the deployed contract instance
         let marketplcacontract = new ethers.Contract(Marketplace1.address, Marketplace1.abi, signer)
@@ -42,7 +49,7 @@ export default function Profile () {
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
             if (addr==i.owner)  {
             let item = {
-                price,
+                price:i.price,
                 tokenId: i.tokenId.toNumber(),
                 owner: i.owner,
                 image: meta.image,
@@ -61,7 +68,7 @@ export default function Profile () {
         updateData(items);
         updateFetched(true);
         updateAddress(addr);
-        updateTotalPrice(sumPrice.toPrecision(3));
+        updateTotalPrice(sumPrice.toPrecision(9));
     }
 
     const params = useParams();
@@ -70,13 +77,16 @@ export default function Profile () {
         getNFTData(tokenId);
 
     return (
-        <div className="profileClass" style={{"min-height":"100vh"}}>
-            <Navbar></Navbar>
+        <div className="body" style={{"min-height":"100vh"}}>
             <div className="profileClass">
             <div className="flex text-center flex-col mt-11 md:text-2xl text-white">
                 <div className="mb-5">
                     <h2 className="font-bold">Wallet Address</h2>  
                     {address}
+                </div>
+                <div className="mb-5">
+                    <h2 className="font-bold">Wallet Balance</h2>  
+                    {balance}
                 </div>
             </div>
             <div className="flex flex-row text-center justify-center mt-10 md:text-2xl text-white">
