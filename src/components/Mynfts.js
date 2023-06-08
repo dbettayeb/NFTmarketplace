@@ -222,7 +222,9 @@ export default function Mynfts() {
             <div className="flex flex-col place-items-center mt-20">
 
 
-                <h2 className="font-bold">Your NFTs</h2>
+            <div className="md:text-xl font-bold text-white">
+                    My NFTs
+                </div>
                 <div className="flex justify-center flex-wrap max-w-screen-xl">
                     {data.map((value, index) => {
                         return <NFTTile data={value} key={index}></NFTTile>;

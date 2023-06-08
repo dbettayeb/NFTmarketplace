@@ -1,0 +1,10 @@
+.time-launch{
+display: flex;
+}
+.time-launch div {
+flex-basis: 100px;
+}
+.time-launch div p {
+font-size: 60px;
+margin-bottom: -14px;
+}

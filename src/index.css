@@ -11,7 +11,8 @@ body {
   /*font-family: 'M PLUS 1p', sans-serif;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url('back.png') no-repeat center center fixed; 
+  background: url('backk.png') no-repeat center center fixed; 
+  /* background-color: black; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

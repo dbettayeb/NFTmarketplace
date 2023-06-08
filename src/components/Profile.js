@@ -13,7 +13,7 @@ export default function Profile () {
     const [data, updateData] = useState([]);
     const [dataFetched, updateFetched] = useState(false);
     const [address, updateAddress] = useState("0x");
-    const [totalPrice, updateTotalPrice] = useState("0");
+    const [totalPrice, updateTotalPrice] = useState(0);
     const [balance, setBalance] = useState(0);
 
 
@@ -49,26 +49,30 @@ export default function Profile () {
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
             if (addr==i.owner)  {
             let item = {
-                price:i.price,
+                price,
                 tokenId: i.tokenId.toNumber(),
                 owner: i.owner,
                 image: meta.image,
                 name: meta.name,
                 description: meta.description,
                 duration: meta.duration,
-            } 
+            }
+             console.log(price);
+             sumPrice += Number(price);
+             console.log(sumPrice);
+
+
             return item;
 
                                 }
                                    
-            sumPrice += Number(price);
             
         }))
         
         updateData(items);
         updateFetched(true);
         updateAddress(addr);
-        updateTotalPrice(sumPrice.toPrecision(9));
+        updateTotalPrice(sumPrice.toPrecision(2));
     }
 
     const params = useParams();

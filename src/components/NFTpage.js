@@ -64,7 +64,7 @@ export default function NFTPage(props) {
         updateCurrAddress(addr);
     }
 
-    const handleInputChange = ( value) => {
+    const handleInputChange = (value) => {
         
         setMac(value)
 
@@ -85,6 +85,7 @@ export default function NFTPage(props) {
         await transaction.wait();
 
       alert('Nft unlisted successfully');
+      window.location.replace("/")
 }
 
 
@@ -216,6 +217,8 @@ export default function NFTPage(props) {
                             type="text"
                             onChange={(e) => handleInputChange(e.target.value)}
                             placeholder="your address Mac"
+                            pattern="	^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$"
+                            required
                             style={{ color: "black", width: "200px", height: "36px" }}
                           />
                         </div>
