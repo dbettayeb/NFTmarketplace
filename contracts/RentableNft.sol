@@ -9,19 +9,24 @@ contract RentableNft is ERC4907 {
   address private _marketplaceContract;
   Counters.Counter private _tokenIds;
 
-  constructor() ERC4907("RentableNft", "RNFT") {
-    //_marketplaceContract = marketplaceContract;
+  constructor(address marketplaceContract) ERC4907("RentableNft", "RNFT") {
+    _marketplaceContract = marketplaceContract;
   }
 
-  function mint(string memory _tokenURI) public {
+  function mint(string memory _tokenURI) public returns (uint) {
     _tokenIds.increment();
     uint256 newTokenId = _tokenIds.current();
     _safeMint(msg.sender, newTokenId);
     setApprovalForAll(_marketplaceContract, true);
     _setTokenURI(newTokenId, _tokenURI);
+    return newTokenId;
   }
 
   function burn(uint256 tokenId) public {
     _burn(tokenId);
+  }
+    function time () view public returns (uint256) {
+
+    return block.timestamp;
   }
 }
