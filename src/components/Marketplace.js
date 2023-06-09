@@ -98,6 +98,84 @@ export default function Marketplace() {
 
 
     }
+       // ... existing code
+       async function getnotrentedNFTs() {
+        const ethers = require("ethers");
+        //After adding your Hardhat network to your metamask, this code will get providers and signers
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        //Pull the deployed contract instance
+        let contract = new ethers.Contract(Marketplace1.address, Marketplace1.abi, signer)
+        let rentablenftcontract = new ethers.Contract(RentableNft.address, RentableNft.abi, signer)
+  
+        //create an NFT Token
+        let transaction = await contract.getAllnotRented()
+  
+        //Fetch all the details of every NFT from the contract and display
+        const items = await Promise.all(transaction.map(async i => {
+            var tokenURI = await rentablenftcontract.tokenURI(i.tokenId);
+            console.log("getting this tokenUri", tokenURI);
+            tokenURI = GetIpfsUrlFromPinata(tokenURI);
+            let meta = await axios.get(tokenURI);
+            meta = meta.data;
+  
+            let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+            let item = {
+                price,
+                tokenId: i.tokenId.toNumber(),
+                owner: i.owner,
+                image: meta.image,
+                name: meta.name,
+                description: meta.description,
+                duration: meta.duration,
+                state: i.state,
+                addressmac: i.mac
+            }
+            return item;
+        }))
+  
+        updateFetched(true);
+        updateData(items);
+  }
+     // ... existing code
+     async function getrentedNFTs() {
+      const ethers = require("ethers");
+      //After adding your Hardhat network to your metamask, this code will get providers and signers
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      //Pull the deployed contract instance
+      let contract = new ethers.Contract(Marketplace1.address, Marketplace1.abi, signer)
+      let rentablenftcontract = new ethers.Contract(RentableNft.address, RentableNft.abi, signer)
+
+      //create an NFT Token
+      let transaction = await contract.getAllRented()
+
+      //Fetch all the details of every NFT from the contract and display
+      const items = await Promise.all(transaction.map(async i => {
+          var tokenURI = await rentablenftcontract.tokenURI(i.tokenId);
+          console.log("getting this tokenUri", tokenURI);
+          tokenURI = GetIpfsUrlFromPinata(tokenURI);
+          let meta = await axios.get(tokenURI);
+          meta = meta.data;
+
+          let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+          let item = {
+              price,
+              tokenId: i.tokenId.toNumber(),
+              owner: i.owner,
+              image: meta.image,
+              name: meta.name,
+              description: meta.description,
+              duration: meta.duration,
+              state: i.state,
+              addressmac: i.mac
+          }
+          return item;
+      }))
+
+      updateFetched(true);
+      updateData(items);
+}
     async function getAllNFTsByAddress(account) {
         try {
           const ethers = require("ethers");
@@ -212,6 +290,17 @@ export default function Marketplace() {
         My NFTs
          
       </button>
+      
+      </div>
+      <div className="ml-4">
+      <button className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm ml-2"
+      onClick={() => {
+        setstring("Available");
+        getnotrentedNFTs(currAddress) }}>
+        Available NFTs
+         
+      </button>
+      
       </div>
 
       <div className="ml-4">

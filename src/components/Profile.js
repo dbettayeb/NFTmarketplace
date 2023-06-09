@@ -82,7 +82,16 @@ export default function Profile () {
 
     return (
         <div className="body" style={{"min-height":"100vh"}}>
-            <div className="profileClass">
+            <div className=" text-xl ml-1 space-y-2 text-white shadow-2xl rounded-lg border-2 p-2 "
+                style={{ 
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    width:"60%",
+                    margin:  "auto", /* Horizontally center the element */
+                    justifycontent: "center" ,/* Center the content horizontally */
+                 //   opacity:0.7
+                    
+
+         }} >
             <div className="flex text-center flex-col mt-11 md:text-2xl text-white">
                 <div className="mb-5">
                     <h2 className="font-bold">Wallet Address</h2>  
@@ -111,7 +120,7 @@ export default function Profile () {
                     })}
                 </div>
                 <div className="mt-10 text-xl">
-                    {data.length == 0 ? "Oops, No NFT data to display (Are you logged in?)":""}
+                    {data.length == 0 ? "No NFT data to display ":""}
                 </div>
             </div>
             </div>

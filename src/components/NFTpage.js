@@ -167,7 +167,8 @@ export default function NFTPage(props) {
               <div className="flex justify-center items-center mt-100">
                 <img src={data.image} alt=""  className="w-2/7  border rounded-lg shadow-2xl "width="400" 
      height="500" />
-                <div className="text-xl ml-1 space-y-8 text-white shadow-2xl rounded-lg border-2 p-5">
+                <div className="text-xl ml-1 space-y-8 text-white shadow-2xl rounded-lg border-2 p-5"
+                      style={{ backgroundColor: "black" }}>
                   <div>
                     Name: {data.name}
                   </div>
@@ -215,10 +216,11 @@ export default function NFTPage(props) {
                           <input className="enableEthereumButton   text-white font-bold py-2 px-4 rounded text-sm inline-block -mt-1 ml-2"
 
                             type="text"
-                            onChange={(e) => handleInputChange(e.target.value)}
-                            placeholder="your address Mac"
-                            pattern="	^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$"
+                            pattern="^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" 
                             required
+                            value={mac}
+                            onChange={(e) => handleInputChange(e.target.value)}
+                            placeholder="Your MAC address"
                             style={{ color: "black", width: "200px", height: "36px" }}
                           />
                         </div>
