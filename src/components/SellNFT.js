@@ -23,7 +23,7 @@ export default function SellNFT () {
     async function enableButton() {
         const listButton = document.getElementById("list-button")
         listButton.disabled = false
-        listButton.style.backgroundColor = "#A500FF";
+        listButton.style.backgroundColor = "#FF9800";
         listButton.style.opacity = 1;
     }
 

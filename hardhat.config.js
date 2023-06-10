@@ -1,5 +1,8 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-ethers");
+require('dotenv').config();
+
+const { API_URL, PRIVATE_KEY } = process.env;
 const fs = require('fs');
 // const infuraId = fs.readFileSync(".infuraid").toString().trim() || "";
 
@@ -16,8 +19,8 @@ module.exports = {
   networks: {
     hardhat: {},
     sepolia: {
-       url: "https://eth-sepolia.g.alchemy.com/v2/CxsnQRk6vVA0rsw6ddwpDS7R-bvLpGc7",
-       accounts: [`0x${"ce17042ec0498b0f52bf4e42a7c20b6c54b7f755485ad406ede1f594331cfbc2"
+       url: API_URL,
+       accounts: [`0x${PRIVATE_KEY
        }`]
     }
   },

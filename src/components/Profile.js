@@ -16,8 +16,22 @@ export default function Profile () {
     const [totalPrice, updateTotalPrice] = useState(0);
     const [balance, setBalance] = useState(0);
 
+    async function getAddress() {
+    
+        const ethers = require("ethers");
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const addr = await signer.getAddress();
+        updateAddress(addr);
+        // Fetch the balance of the current address
+        const balancee = await provider.getBalance(addr);
+        const balance = ethers.utils.formatEther(balancee);
+        setBalance(balance);}
+    
+      
 
-    async function getNFTData(tokenId) {
+
+    async function getNFTData() {
         const ethers = require("ethers");
         let sumPrice = 0;
         //After adding your Hardhat network to your metamask, this code will get providers and signers
@@ -77,8 +91,10 @@ export default function Profile () {
 
     const params = useParams();
     const tokenId = params.tokenId;
-    if(!dataFetched)
-        getNFTData(tokenId);
+
+    getAddress();
+    getNFTData();
+        
 
     return (
         <div className="body" style={{"min-height":"100vh"}}>
