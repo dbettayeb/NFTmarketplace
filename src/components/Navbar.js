@@ -186,7 +186,13 @@ function Navbar() {
     // Fetch the balance of the current address
     const balancee = await provider.getBalance(addr);
     const balance = ethers.utils.formatEther(balancee);
-    setBalance(balance);}
+    setBalance(balance);
+  
+  
+  
+  
+  
+  }
 
 
 
@@ -194,33 +200,34 @@ function Navbar() {
     if (!account) {
     return (
       <nav className="navBar">
-        <div className="container-fluid">
-          <nav className="w-screen">
-            <ul className="flex items-end justify-between py-3 bg-transparent text-white pr-5">
-              <li className="flex items-end ml-5 pb-4">
-                <Link to="/">
-                  <img src={fullLogo} alt="" width={50} height={50} className="inline-block -mt-2" />
-                  <div className="inline-block font-bold text-xl ml-2">
-                    Wi-Fi NFT Marketplace
-                  </div>
-                  <img src={wifiicon} alt="" width={40} height={40} className="inline-block -mt-2 ml-6" />
-                </Link>
-              </li>
-              <li className="pb-4">
-                <button
-                  className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm"
-                  onClick={connectMetaMask}
-                >
-                  Connect
-                </button>
-              </li>
-            </ul>
-          </nav>
-          <div className="text-white text-bold text-right mr-10 text-sm">
-            Not Connected. Please login to view NFTs
-          </div>
-        </div>
-      </nav>
+  <div className="container-fluid">
+    <nav className="w-screen">
+      <ul className="flex flex-wrap items-center justify-between py-3 bg-transparent text-white pr-5">
+        <li className="w-full md:w-auto flex items-center justify-center md:justify-start mb-2 md:mb-0">
+          <Link to="/">
+            <img src={fullLogo} alt="" width={50} height={50} className="inline-block -mt-2" />
+            <div className="inline-block font-bold text-xl ml-2">
+              Wi-Fi NFT Marketplace
+            </div>
+            <img src={wifiicon} alt="" width={40} height={40} className="inline-block -mt-2 ml-6" />
+          </Link>
+        </li>
+        <li>
+          <button
+            className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm"
+            onClick={connectMetaMask}
+          >
+            Connect
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div className="text-white text-bold text-right mr-10 text-sm">
+      Not Connected. Please login to view NFTs
+    </div>
+  </div>
+</nav>
+
     );
   }
   return (

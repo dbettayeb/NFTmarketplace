@@ -1,7 +1,8 @@
 import NFTTile from "./NFTTile";
 import Marketplace1 from '../Marketplace1.json';
 import RentableNft from '../Rentablenft1.json';
-
+import wifii from "C:/Users/d.betaieb/Desktop/NFT-Marketplace-Tutorial/src/wifii.png";
+import fullLogo from '../logo_orange.svg';
 
 import axios from "axios";
 import { useState } from "react";
@@ -16,7 +17,7 @@ export default function Marketplace() {
 
     const [dataFetched, updateFetched] = useState(false);
   //  const [inputAddress, setinputAddress] = useState('');
-    const [currAddress, updateAddress] = useState('0x');
+    const [currAddress, updateAddress] = useState('0x0');
     const [balance, setBalance] = useState(0);
 
 
@@ -265,50 +266,62 @@ export default function Marketplace() {
         getAllNFTs();
         getAddress();
     // getrentedNFTs();
-    if(currAddress=='0x')
-    {
+    if (currAddress === '0x0') {
+      return (
+        <div>
+          <div className="flex items-center justify-center ">
+            <h1 className="flex text-center flex-col mt-11 md:text-2xl text-white">PLEASE CONNECT</h1>
 
-        return null;
+          </div>
+          <div id="myDiv">
+            <img src={wifii} alt="" width={400} height={400} className="rocket animated bounce" />
+          </div>
+        </div>
+      );
     }
+    
 
     return (
-        <div className="index">
-                <div className="flex items-end ml-5 pb-4">
-                <button className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm"
-      onClick={() => {
-        setstring("Marketplace");
-        getAllNFTs();
-                        }}>
-        Marketplace NFTs
-         
-      </button>
-      <div className="ml-4">
-      <button className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm ml-2"
-      onClick={() => {
-        setstring("My");
-        getAllNFTsByAddress(currAddress) }}>
-        My NFTs
-         
-      </button>
-      
-      </div>
-      <div className="ml-4">
-      <button className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm ml-2"
-      onClick={() => {
-        setstring("Available");
-        getnotrentedNFTs(currAddress) }}>
-        Available NFTs
-         
-      </button>
-      
-      </div>
-
-      <div className="ml-4">
+      <div className="index">
+      <div className="flex items-end ml-5 pb-4">
+        <button
+          className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm"
+          onClick={() => {
+            setstring("Marketplace");
+            getAllNFTs();
+          }}
+        >
+          Marketplace NFTs
+        </button>
+        <div className="ml-4">
           <button
             className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm ml-2"
             onClick={() => {
-                setstring(selectedAddress);
-                getAllNFTsByAddress(selectedAddress)}}
+              setstring("My");
+              getAllNFTsByAddress(currAddress);
+            }}
+          >
+            My NFTs
+          </button>
+        </div>
+        <div className="ml-4">
+          <button
+            className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm ml-2"
+            onClick={() => {
+              setstring("Available");
+              getnotrentedNFTs(currAddress);
+            }}
+          >
+            Available NFTs
+          </button>
+        </div>
+        <div className="ml-4">
+          <button
+            className="enableEthereumButton bg-orange-500 text-white font-bold py-2 px-4 rounded text-sm ml-2"
+            onClick={() => {
+              setstring(selectedAddress);
+              getAllNFTsByAddress(selectedAddress);
+            }}
           >
             Display NFTs of this address
           </button>
@@ -325,27 +338,19 @@ export default function Marketplace() {
             ))}
           </select>
         </div>
-    </div>
-
-            <div className="flex flex-col place-items-center mt-20">
-
-
-                <div className="md:text-xl font-bold text-white">
-                        {string} NFTs
-                </div>
-
-                <div className="flex mt-5 justify-between flex-wrap max-w-screen-xl text-center">
-                    {data.map((value, index) => {
-                        return <NFTTile data={value} key={index}></NFTTile>;
-                    })}
-                </div>
-
-
-
-            </div>
-
-
+      </div>
+    
+      <div className="flex flex-col place-items-center mt-20">
+        <div className="md:text-xl font-bold text-white">{string} NFTs</div>
+    
+        <div className="flex mt-5 justify-center md:justify-between flex-wrap max-w-screen-xl text-center">
+          {data.map((value, index) => {
+            return <NFTTile data={value} key={index}></NFTTile>;
+          })}
         </div>
+      </div>
+    </div>
+    
     );
 
 }
