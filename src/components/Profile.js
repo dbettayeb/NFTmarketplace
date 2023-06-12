@@ -17,16 +17,21 @@ export default function Profile () {
     const [balance, setBalance] = useState(0);
 
     async function getAddress() {
-    
-        const ethers = require("ethers");
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const addr = await signer.getAddress();
-        updateAddress(addr);
-        // Fetch the balance of the current address
-        const balancee = await provider.getBalance(addr);
-        const balance = ethers.utils.formatEther(balancee);
-        setBalance(balance);}
+        try {
+            const ethers = require("ethers");
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            const addr = await signer.getAddress();
+            updateAddress(addr);
+            // Fetch the balance of the current address
+            const balancee = await provider.getBalance(addr);
+            const balance = ethers.utils.formatEther(balancee);
+            setBalance(balance);
+            
+        } catch {
+            console.log("SSS")
+        }   
+    }
     
       
 

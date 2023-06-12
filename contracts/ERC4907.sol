@@ -82,17 +82,5 @@ contract ERC4907 is ERC721URIStorage, IERC4907 {
       super.supportsInterface(interfaceId);
   }
 
-  function _beforeTokenTransfer(
-    address from,
-    address to,
-    uint256 tokenId,
-    uint256 batchSize
-  ) internal virtual override {
-    super._beforeTokenTransfer(from, to, tokenId, batchSize);
 
-    if (from != to && _users[tokenId].user != address(0)) {
-      delete _users[tokenId];
-      emit UpdateUser(tokenId, address(0), 0,"");
-    }
-  }
 }

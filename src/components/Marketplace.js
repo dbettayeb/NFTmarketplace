@@ -40,16 +40,21 @@ export default function Marketplace() {
 
 
   async function getAddress() {
-    
-    const ethers = require("ethers");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const addr = await signer.getAddress();
-    updateAddress(addr);
-    // Fetch the balance of the current address
-    const balancee = await provider.getBalance(addr);
-    const balance = ethers.utils.formatEther(balancee);
-    setBalance(balance);}
+    try {
+        const ethers = require("ethers");
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const addr = await signer.getAddress();
+        updateAddress(addr);
+        // Fetch the balance of the current address
+        const balancee = await provider.getBalance(addr);
+        const balance = ethers.utils.formatEther(balancee);
+        setBalance(balance);
+        
+    } catch {
+        console.log("SSS")
+    }   
+}
 
   
   
@@ -270,7 +275,7 @@ export default function Marketplace() {
       return (
         <div>
           <div className="flex items-center justify-center ">
-            <h1 className="flex text-center flex-col mt-11 md:text-2xl text-white">PLEASE CONNECT</h1>
+            <h2 className="flex text-center flex-col mt-11 md:text-xl text-white connect">PLEASE CONNECT TO YOUR WALLET </h2>
 
           </div>
           <div id="myDiv">

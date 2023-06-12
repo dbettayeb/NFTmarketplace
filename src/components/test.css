@@ -34,7 +34,7 @@
   }
 
   .red-shadow {
-    box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.8);
+    box-shadow: 0px 4px 30px rgba(255, 0, 0, 1);
   }
   
   .green-blink {
@@ -42,11 +42,68 @@
   }
   
   @keyframes blink {
-    0% { box-shadow: 0px 4px 10px rgba(0, 255, 0, 0.8); }
+    0% { box-shadow: 0px 4px 20px rgba(0, 255, 0, 1); }
     50% { box-shadow: none; }
-    100% { box-shadow: 0px 4px 10px rgba(0, 255, 0, 0.8); }
+    100% { box-shadow: 0px 4px 20px rgba(0, 255, 0,1); }
   }
   
+
+  .slogan {
+    background-color: #f2f2f2;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .slogan h1 {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+  }
+
+  #container {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+  
+  /*Neon*/
+  .connect {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 0;
+    margin-top: 2;
+    line-height: 1;
+    text-decoration: none;
+    color: #fff;
+  }
+  .connect:nth-child(1) {
+    animation: neon5 1.5s ease-in-out infinite alternate;
+  }
+  
+
+  
+  /*glow*/
+
+  @keyframes neon5 {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ffa500,
+        0 0 70px #ffa500, 0 0 80px #ffa500, 0 0 100px #ffa500, 0 0 150px #ffa500;
+    }
+    to {
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ffa500,
+        0 0 35px #ffa500, 0 0 40px #ffa500, 0 0 50px #ffa500, 0 0 75px #ffa500;
+    }
+  }
+  
+  /*Make stuff responsive*/
+  
+  @media (max-width: 650px) {
+    p {
+      font-size: 3.5em;
+    }
+  }
 
   
   
