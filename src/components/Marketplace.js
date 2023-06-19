@@ -1,7 +1,7 @@
 import NFTTile from "./NFTTile";
 import Marketplace1 from '../Marketplace1.json';
 import RentableNft from '../Rentablenft1.json';
-import wifii from "C:/Users/d.betaieb/Desktop/NFT-Marketplace-Tutorial/src/wifii.png";
+import wifii from "C:/Users/d.betaieb/Desktop/Rental WIFI NFT Marketplace/src/wifii.png";
 import fullLogo from '../logo_orange.svg';
 
 import axios from "axios";
