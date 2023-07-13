@@ -275,7 +275,7 @@ export default function Marketplace() {
       return (
         <div>
           <div className="flex items-center justify-center ">
-            <h2 className="flex text-center flex-col mt-11 md:text-xl text-white connect">PLEASE CONNECT TO YOUR WALLET </h2>
+            <h2 className="flex text-center flex-col mt-11 md:text-xl text-white connect">PLEASE CONNECT TO YOUR METAMASK WALLET </h2>
 
           </div>
           <div id="myDiv">

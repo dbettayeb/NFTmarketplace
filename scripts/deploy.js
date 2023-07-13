@@ -20,7 +20,7 @@ async function main() {
 
 
   //This writes the ABI and address to the mktplace.json
-  fs.writeFileSync('./src/Marketplace.json', JSON.stringify(datamarketplace))
+  fs.writeFileSync('./src/Marketplace1.json', JSON.stringify(datamarketplace))
   const rentablenft = await RentableNft.deploy(marketplace.address);
   await rentablenft.deployed();
     
@@ -28,7 +28,7 @@ async function main() {
     address: rentablenft.address,
     abi: JSON.parse(rentablenft.interface.format('json'))
   }
-  fs.writeFileSync('./src/Rentablenft.json', JSON.stringify(datarentablenft))
+  fs.writeFileSync('./src/Rentablenft1.json', JSON.stringify(datarentablenft))
 
 
 

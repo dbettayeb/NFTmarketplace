@@ -1,4 +1,4 @@
-import logo from '../logo_3.png';
+//import logo from '../logo_3.png';
 import fullLogo from '../logo_orange.svg';
 import wifiicon from '../symbole-wifi-icone-png-orange.png';
 import Web3 from 'web3';
