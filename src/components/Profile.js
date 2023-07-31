@@ -141,7 +141,7 @@ export default function Profile () {
                     })}
                 </div>
                 <div className="mt-10 text-xl">
-                    {data.length == 0 ? "No NFT data to display ":""}
+                    {data.length == 0 ? "You don't have any NFTs":""}
                 </div>
             </div>
             </div>

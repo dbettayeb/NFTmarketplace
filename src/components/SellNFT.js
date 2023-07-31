@@ -92,7 +92,7 @@ export default function SellNFT () {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
             disableButton();
-            updateMessage("Uploading NFT(takes 5 mins).. please dont click anything!")
+            updateMessage("Uploading NFT.. please dont click anything!")
 
             //Pull the deployed contract instance
             let marketplacecontract = new ethers.Contract(Marketplace1.address, Marketplace1.abi, signer)

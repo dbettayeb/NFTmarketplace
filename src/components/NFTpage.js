@@ -109,7 +109,7 @@ export default function NFTPage(props) {
             const expires=timestamp+durationint*60;
 
 
-            updateMessage("Renting the NFT... Please Wait (Upto 5 mins)")
+            updateMessage("Renting the NFT... Please Wait")
             //run the executeSale function
             let transaction = await marketplacecontract.rentNFT(Rentablenft1.address,tokenId,rentPrice,expires,mac ,{value:rentPrice});
             await transaction.wait();
@@ -120,7 +120,7 @@ export default function NFTPage(props) {
             // });
 
     
-            alert('You successfully rent the NFT!');
+            alert('You successfully rent the NFT! \n THE PASSWORD OF THE ACCESS POINT IS : 123456789');
             updateMessage("");
             window.location.reload()
 
